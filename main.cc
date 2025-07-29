@@ -6,8 +6,6 @@
 #include <thread>
 #include <algorithm>
 using namespace std;
-using namespace chrono;
-using namespace this_thread;
 
 struct Process {
     uint32_t id;
@@ -17,7 +15,7 @@ struct Process {
 };
 
 void sleep(const uint32_t ms) noexcept {
-    sleep_for(milliseconds(ms));
+    this_thread::sleep_for(chrono::milliseconds(ms));
 }
 
 int main() noexcept {
@@ -26,8 +24,7 @@ int main() noexcept {
         {1, 0, 12, 12},
         {2, 1, 3, 3},
         {3, 2, 4, 4},
-        {4, 3, 2, 2},
-        // {5, 4, 2, 2}
+        {4, 3, 2, 2}
     };
 
     queue<uint32_t> rq;
@@ -57,7 +54,7 @@ int main() noexcept {
                 idx++;
             }
 
-            if(proc.remaining > 0) {
+            if(proc.remaining != 0) {
                 rq.push(pidx);
             }
             else {
